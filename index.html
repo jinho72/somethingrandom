@@ -16,6 +16,7 @@
             height: 100%;
             overflow: hidden;
             background: transparent;
+            position: fixed;
         }
         model-viewer {
             width: 100%;
@@ -52,9 +53,7 @@
       interaction-prompt="none"
       ar-modes="none">
     </model-viewer>
-
     <div class="indicator" id="indicator"></div>
-
     <script>
         const models = [
             'https://jinho72.github.io/somethingrandom/lastdance_1.stl.glb',
@@ -66,8 +65,8 @@
         let currentIndex = 0;
         const viewer = document.getElementById('viewer');
         const indicator = document.getElementById('indicator');
+        
 
-   
         // Auto-switch every 5 seconds
         setInterval(() => {
             currentIndex = (currentIndex + 1) % models.length;
@@ -77,7 +76,7 @@
             document.querySelectorAll('.dot').forEach((dot, i) => {
                 dot.className = i === currentIndex ? 'dot active' : 'dot';
             });
-        }, 5000); // Change model every 5 seconds
+        }, 5000);
     </script>
 </body>
 </html>
