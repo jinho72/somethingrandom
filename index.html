@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Model</title>
+    <title>3D Models</title>
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
     <style>
         * {
@@ -15,33 +15,75 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-        }
-        body {
             background: transparent;
         }
         model-viewer {
             width: 100%;
             height: 100%;
-            --poster-color: transparent;
         }
-        /* Hide all AR and interaction prompt buttons */
-        model-viewer::part(default-ar-button) {
-            display: none;
+        .indicator {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            border: 2px solid #333;
+        }
+        .dot.active {
+            background: white;
         }
     </style>
 </head>
 <body>
     <model-viewer 
-      src="./lastdance_artic_simplified2.stl.glb" 
+      id="viewer"
+      src="./model1.glb" 
       alt="3D Model"
       camera-controls 
       auto-rotate
-      auto-rotate-delay="0"
-      rotation-per-second="30deg"
       interaction-prompt="none"
-      ar-modes="none"
-      disable-zoom
-      style="background: transparent;">
+      ar-modes="none">
     </model-viewer>
+
+    <div class="indicator" id="indicator"></div>
+
+    <script>
+        const models = [
+            'https://jinho72.github.io/somethingrandom/lastdance_1.stl.glb',
+            'https://jinho72.github.io/somethingrandom/lastdance_artic_simplified2.stl.glb',
+            'https://jinho72.github.io/somethingrandom/lastdance_inter.stl.glb',
+            'https://jinho72.github.io/somethingrandom/lastdance_southern.simplified.stl.glb'
+        ];
+        
+        let currentIndex = 0;
+        const viewer = document.getElementById('viewer');
+        const indicator = document.getElementById('indicator');
+
+        // Create indicator dots
+        models.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.className = 'dot' + (index === 0 ? ' active' : '');
+            indicator.appendChild(dot);
+        });
+
+        // Auto-switch every 5 seconds
+        setInterval(() => {
+            currentIndex = (currentIndex + 1) % models.length;
+            viewer.src = models[currentIndex];
+            
+            // Update indicator
+            document.querySelectorAll('.dot').forEach((dot, i) => {
+                dot.className = i === currentIndex ? 'dot active' : 'dot';
+            });
+        }, 5000); // Change model every 5 seconds
+    </script>
 </body>
 </html>
