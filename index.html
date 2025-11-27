@@ -67,13 +67,7 @@
         const viewer = document.getElementById('viewer');
         const indicator = document.getElementById('indicator');
 
-        // Create indicator dots
-        models.forEach((_, index) => {
-            const dot = document.createElement('div');
-            dot.className = 'dot' + (index === 0 ? ' active' : '');
-            indicator.appendChild(dot);
-        });
-
+   
         // Auto-switch every 5 seconds
         setInterval(() => {
             currentIndex = (currentIndex + 1) % models.length;
