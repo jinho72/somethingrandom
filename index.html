@@ -17,9 +17,10 @@
             overflow: hidden;
             background: transparent;
             position: fixed;
+            overscroll-behavior: none;
         }
         body::-webkit-scrollbar {
-            display:none;
+            display: none;
         }
         body {
             -ms-overflow-style: none;
@@ -29,19 +30,17 @@
             width: 100%;
             height: 100%;
         }
-      
     </style>
 </head>
 <body>
     <model-viewer 
       id="viewer"
-      src="./model1.glb" 
       alt="3D Model"
       camera-controls 
       auto-rotate
       interaction-prompt="none"
       ar-modes="none"
-        disable-zoom>
+      disable-zoom>
     </model-viewer>
     <script>
         const models = [
@@ -53,9 +52,8 @@
         
         let currentIndex = 0;
         const viewer = document.getElementById('viewer');
-        const indicator = document.getElementById('indicator');
-
-        //Preload all models
+        
+        // Preload all models to prevent freezing
         function preloadModels() {
             models.forEach(src => {
                 const tempViewer = document.createElement('model-viewer');
@@ -64,20 +62,17 @@
                 document.body.appendChild(tempViewer);
             });
         }
-        window.addEventListner('load', preloadModels);
-                
-        //set initial model
-        updateModel();
-
-        //Auto-switch every 5 seconds
+        
+        window.addEventListener('load', preloadModels);
+        
+        // Set initial model
+        viewer.src = models[currentIndex];
+        
+        // Auto-switch every 5 seconds
         setInterval(() => {
             currentIndex = (currentIndex + 1) % models.length;
-            updateModel();
+            viewer.src = models[currentIndex];
         }, 5000);
-
-       
-            
-            
     </script>
 </body>
 </html>
