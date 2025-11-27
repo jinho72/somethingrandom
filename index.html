@@ -29,25 +29,7 @@
             width: 100%;
             height: 100%;
         }
-        .indicator {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
-            z-index: 10;
-        }
-        .dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.5);
-            border: 2px solid #333;
-        }
-        .dot.active {
-            background: white;
-        }
+      
     </style>
 </head>
 <body>
@@ -61,7 +43,6 @@
       ar-modes="none"
         disable-zoom>
     </model-viewer>
-    <div class="indicator" id="indicator"></div>
     <script>
         const models = [
             'https://jinho72.github.io/somethingrandom/lastdance_1.stl.glb',
@@ -73,18 +54,30 @@
         let currentIndex = 0;
         const viewer = document.getElementById('viewer');
         const indicator = document.getElementById('indicator');
-        
 
-        // Auto-switch every 5 seconds
+        //Preload all models
+        function preloadModels() {
+            models.forEach(src => {
+                const tempViewer = document.createElement('model-viewer');
+                tempViewer.src = src;
+                tempViewer.style.display = 'none';
+                document.body.appendChild(tempViewer);
+            });
+        }
+        window.addEventListner('load', preloadModels);
+                
+        //set initial model
+        updateModel();
+
+        //Auto-switch every 5 seconds
         setInterval(() => {
             currentIndex = (currentIndex + 1) % models.length;
-            viewer.src = models[currentIndex];
-            
-            // Update indicator
-            document.querySelectorAll('.dot').forEach((dot, i) => {
-                dot.className = i === currentIndex ? 'dot active' : 'dot';
-            });
+            updateModel();
         }, 5000);
+
+       
+            
+            
     </script>
 </body>
 </html>
