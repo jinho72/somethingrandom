@@ -15,23 +15,26 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background: transparent;
+            /* Changed from transparent to white */
+            background: #ffffff; 
             position: fixed;
             overscroll-behavior: none;
         }
-        body::-webkit-scrollbar {
-            display: none;
-        }
-        body {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+        
         model-viewer {
             width: 100%;
             height: 100%;
+            background-color: #ffffff; /* Ensures the viewer itself is white */
             --progress-bar-color: transparent;
             --progress-bar-height: 0px;
         }
+
+        /* REMOVES THE BLUE LINE (Focus Ring) */
+        model-viewer:focus {
+            outline: none;
+        }
+
+        /* Hidden progress bar components */
         model-viewer::part(default-progress-bar) {
             display: none !important;
         }
@@ -47,8 +50,8 @@
       ar-modes="none"
       disable-zoom
       loading="eager"
-      reveal="auto">
-    </model-viewer>
+      reveal="auto"
+      shadow-intensity="0"> </model-viewer>
     <script>
         const viewer = document.getElementById('viewer');
         viewer.src = 'https://jinho72.github.io/somethingrandom/lastdance_1.stl.glb';
